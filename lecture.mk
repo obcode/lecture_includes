@@ -45,8 +45,12 @@ HTMLS:=		$(patsubst %.txt,$(HTMLDIR)/%.html,$(SRCS))
 $(HTMLDIR):
 	mkdir -p $(HTMLDIR)
 
+HTML_TOC?= --toc
+
 $(HTMLDIR)/%.html: %.txt
-	pandoc --toc -s -S --webtex --self-contained -o $@ $<
+	pandoc \
+	   $(HTML_TOC) \
+	   -s -S --mathml --self-contained -o $@ $<
 
 htmls:	$(HTMLDIR) $(HTMLS)
 h: htmls
