@@ -1,5 +1,17 @@
 # (c) 2013 Oliver Braun
 
+UPLOAD_HOST?=	ob.cs.hm.edu
+UPLOAD_DIR?=	www/static/docs/lectures/$(LECTURE_NAME)
+
+PUSH_HTML?=				YES
+PUSH_PDF?=				YES
+PUSH_PRESENTATIONS?=	YES
+PUSH_WEBIMGS?=			YES
+
+PUSH_DROPBOX?=			NO
+DROPBOX_DIR?=			/dev/null
+SOLUTIONS_DIR?=			/dev/null
+
 COPYRIGHT_DATE:=	`date "+%Y"` Oliver Braun
 COPYRIGHT_AUTHOR:=	
 COPYRIGHT:=	$(COPYRIGHT_DATE) $(COPYRIGHT_AUTHOR)
@@ -124,12 +136,22 @@ lastslide: html
 	sed "s,%%url%%,$(LASTSLIDE)," includes/lastslide.html > html/$(LASTSLIDE_HTML)
 	rsync html/$(LASTSLIDE_HTML) ${UPLOAD_HOST}:${UPLOAD_DIR}/$(HTMLDIR)/$(LASTSLIDE_HTML)
 
-UPLOAD_HOST=	ob.cs.hm.edu
-UPLOAD_DIR=	www/static/docs/lectures/$(LECTURE_NAME)
-
 push: all
-	rsync -avz $(PDFDIR) $(HTMLDIR) $(PRESDIR) $(WEBIMG_DIR) \
-	    ${UPLOAD_HOST}:${UPLOAD_DIR}
+ifeq ($(PUSH_HTML),YES)
+	rsync -avz $(HTMLDIR) $(UPLOAD_HOST):$(UPLOAD_DIR)
+endif
+ifeq ($(PUSH_PDF),YES)
+	rsync -avz $(PDFDIR) $(UPLOAD_HOST):$(UPLOAD_DIR)
+endif
+ifeq ($(PUSH_PRESENTATIONS),YES)
+	rsync -avz $(PRESDIR) $(UPLOAD_HOST):$(UPLOAD_DIR)
+endif
+ifeq ($(PUSH_WEBIMGS),YES)
+	rsync -avz $(WEBIMG_DIR) $(UPLOAD_HOST):$(UPLOAD_DIR)
+endif
+ifeq ($(PUSH_DROPBOX),YES)
+	rsync -av $(SOLUTIONS_DIR) $(DROPBOX_DIR)
+endif
 
 # common targets
 
