@@ -65,6 +65,8 @@ PDFS:=		$(patsubst %.txt,$(PDFDIR)/%.pdf,$(SRCS))
 $(PDFDIR):
 	mkdir -p $(PDFDIR)
 
+PDF_TOC?= --toc
+
 $(PDFDIR)/%.pdf: %.txt
 	pandoc -S --template=includes/template.tex \
 	    --variable lecturename="$(LECTURE_NAME)" \
@@ -73,7 +75,9 @@ $(PDFDIR)/%.pdf: %.txt
 	    --variable semester="$(SEMESTER)" \
 	    --variable copyright="$(COPYRIGHT)" \
 	    $(GERMAN) \
-	    --latex-engine=xelatex --toc -o $@ $<
+	    --latex-engine=xelatex \
+	    $(PDF_TOC) \
+	    -o $@ $<
 
 pdfs:	$(PDFDIR) $(PDFS)
 p: pdfs
