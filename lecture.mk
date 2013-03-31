@@ -12,6 +12,8 @@ PUSH_DROPBOX?=			NO
 DROPBOX_DIR?=			/dev/null
 SOLUTIONS_DIR?=			/dev/null
 
+WATCH_DIR?=	presentation
+
 COPYRIGHT_DATE:=	`date "+%Y"` Oliver Braun
 COPYRIGHT_AUTHOR:=	
 COPYRIGHT:=	$(COPYRIGHT_DATE) $(COPYRIGHT_AUTHOR)
@@ -105,7 +107,7 @@ README.html: README.md
 # taken from http://brettterpstra.com/watch-for-file-changes-and-refresh-your-browser-automatically/
 
 watch:
-	watch.rb presentation $(LECTURE_NAME)
+	watch.rb $(WATCH_DIR) $(LECTURE_NAME)
 
 # push to ob.cs.hm.edu
 
