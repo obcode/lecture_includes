@@ -50,9 +50,15 @@ $(HTMLDIR):
 HTML_TOC?= --toc
 
 $(HTMLDIR)/%.html: %.txt
+	sed -e "s,@commit@,$(COMMIT), ;\
+	    s/@date@/$(DATE)/ ;\
+	    s/@lecturename@/$(LECTURE_NAME)/ ;\
+		s/@copyright@/$(COPYRIGHT)/" includes/footer.html.in > includes/footer.html
 	pandoc \
 	   $(HTML_TOC) \
+	   --css includes/ocean.css -A includes/footer.html \
 	   -s -S --mathml --self-contained -o $@ $<
+	rm includes/footer.html
 
 htmls:	$(HTMLDIR) $(HTMLS)
 h: htmls
