@@ -7,6 +7,7 @@ PUSH_HTML?=				YES
 PUSH_PDF?=				YES
 PUSH_PRESENTATIONS?=	YES
 PUSH_WEBIMGS?=			YES
+PUSH_SRC?=				NO
 
 PUSH_DROPBOX?=			NO
 DROPBOX_DIR?=			/dev/null
@@ -108,6 +109,10 @@ presentations:	$(PRESDIR) $(PRESS)
 # s for slidy
 s: presentations
 
+# Sources
+
+SRC_DIR?=	src
+
 # README
 
 README.html: README.md
@@ -164,6 +169,9 @@ ifeq ($(PUSH_PRESENTATIONS),YES)
 endif
 ifeq ($(PUSH_WEBIMGS),YES)
 	rsync -avz $(WEBIMG_DIR) $(UPLOAD_HOST):$(UPLOAD_DIR)
+endif
+ifeq ($(PUSH_SRC),YES)
+	rsync -Lavz $(SRC_DIR) $(UPLOAD_HOST):$(UPLOAD_DIR)
 endif
 ifeq ($(PUSH_DROPBOX),YES)
 	rsync -av $(SOLUTIONS_DIR) $(DROPBOX_DIR)
