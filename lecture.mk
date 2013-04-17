@@ -50,6 +50,12 @@ $(HTMLDIR):
 
 HTML_TOC?= --toc
 
+ifdef USE_MATHML
+	EMBEDDEDTEX=	--mathml
+else
+	EMBEDDEDTEX=	--webtex
+endif
+
 $(HTMLDIR)/%.html: %.txt
 	sed -e "s,@commit@,$(COMMIT), ;\
 	    s/@date@/$(DATE)/ ;\
@@ -58,7 +64,9 @@ $(HTMLDIR)/%.html: %.txt
 	pandoc \
 	   $(HTML_TOC) \
 	   --css includes/ocean.css -A includes/footer.html \
-	   -s -S --mathml --self-contained -o $@ $<
+	   -s -S \
+	   $(EMBEDDEDTEX) \
+	   --self-contained -o $@ $<
 	rm includes/footer.html
 
 htmls:	$(HTMLDIR) $(HTMLS)
@@ -101,7 +109,8 @@ $(PRESDIR)/%.html: %.txt
 	sed -e "s,@commit@,$(COMMIT), ;\
 	    s/@date@/$(DATE)/ ;\
 		s/@copyright@/$(COPYRIGHT)/" includes/preshdr.html.in > includes/preshdr.html
-	pandoc -t slidy -s -S -V slidy-url=$(SLIDYDIR) --mathml \
+	pandoc -t slidy -s -S -V slidy-url=$(SLIDYDIR) \
+	   $(EMBEDDEDTEX) \
 	   --slide-level=2 --self-contained -H includes/preshdr.html -o $@ $<
 	rm includes/preshdr.html
 
