@@ -2,7 +2,9 @@
 
 UPLOAD_HOST?=	ob.cs.hm.edu
 UPLOAD_DIR?=	www/static/docs/lectures/$(LECTURE_NAME)
-LECTURE_URL?=http://$(UPLOAD_HOST)/lectures/$(LECTURE_NAME)
+LECTURE_URL?=	http://$(UPLOAD_HOST)/lectures/$(LECTURE_NAME)
+# Sources are available on GitHub?
+GITHUB?=	NO
 
 PUSH_HTML?=				YES
 PUSH_PDF?=				YES
@@ -23,7 +25,13 @@ COPYRIGHT?=	$(COPYRIGHT_DATE) $(COPYRIGHT_AUTHOR)
 SLIDYDIR:=	slidy
 
 DATE=	`date "+%d.%m.%y %H:%M"`
-COMMIT=	`git --no-pager log -1 --format="%h"`
+ifeq ($(GITHUB),YES)
+	COMMIT=	`git --no-pager log -1 --format="%h"`
+	SHOWGITHUB=	   --variable github="yes"
+else
+	COMMIT= #
+	SHOWGITHUB= #
+endif
 GERMAN?=	--variable german="german"
 
 # Make images using dot
@@ -62,6 +70,9 @@ $(HTMLDIR)/%.html: %.txt
 	    s/@date@/$(DATE)/ ;\
 	    s/@lecturename@/$(LECTURE_NAME)/ ;\
 		s/@copyright@/$(COPYRIGHT)/" includes/footer.html.in > includes/footer.html
+ifeq ($(GITHUB),NO)
+	sed -e "/GitHub/d" -i "" includes/footer.html
+endif
 	pandoc \
 	   $(HTML_TOC) \
 	   --css includes/ocean.css -A includes/footer.html \
@@ -91,6 +102,7 @@ $(PDFDIR)/%.pdf: %.txt
 	    --variable semester="$(SEMESTER)" \
 	    --variable copyright="$(COPYRIGHT)" \
 	    $(GERMAN) \
+	    $(SHOWGITHUB) \
 	    --latex-engine=xelatex \
 	    $(PDF_TOC) \
 	    -o $@ $<
@@ -107,7 +119,8 @@ $(PRESDIR):
 	mkdir -p $(PRESDIR)
 
 $(PRESDIR)/%.html: %.txt
-	sed -e "s/@date@/$(DATE)/ ;\
+	sed -e "s,@commit@,$(COMMIT), ;\
+		s/@date@/$(DATE)/ ;\
 		s/@copyright@/$(COPYRIGHT)/" includes/preshdr.html.in > includes/preshdr.html
 	pandoc -t slidy -s -S -V slidy-url=$(SLIDYDIR) \
 	   $(EMBEDDEDTEX) \

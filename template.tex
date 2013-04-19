@@ -157,8 +157,11 @@ $else$
 $endif$
 }
 \date{$date$\\[1em]
-    \small $stand$\\
+    \small $stand$
+$if(github)$
+	\\
     \small \url{https://github.com/obcode/$lecturename$/commit/$commit$}
+$endif$
     }
 \begin{document}
 $if(title)$
