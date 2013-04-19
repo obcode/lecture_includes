@@ -2,6 +2,7 @@
 
 UPLOAD_HOST?=	ob.cs.hm.edu
 UPLOAD_DIR?=	www/static/docs/lectures/$(LECTURE_NAME)
+LECTURE_URL?=http://$(UPLOAD_HOST)/lectures/$(LECTURE_NAME)
 
 PUSH_HTML?=				YES
 PUSH_PDF?=				YES
@@ -106,8 +107,7 @@ $(PRESDIR):
 	mkdir -p $(PRESDIR)
 
 $(PRESDIR)/%.html: %.txt
-	sed -e "s,@commit@,$(COMMIT), ;\
-	    s/@date@/$(DATE)/ ;\
+	sed -e "s/@date@/$(DATE)/ ;\
 		s/@copyright@/$(COPYRIGHT)/" includes/preshdr.html.in > includes/preshdr.html
 	pandoc -t slidy -s -S -V slidy-url=$(SLIDYDIR) \
 	   $(EMBEDDEDTEX) \

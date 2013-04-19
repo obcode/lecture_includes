@@ -1,5 +1,4 @@
 <div class="background">
     <img id="head-icon" alt="Logo HS München" src="includes/hm_logo.jpg" height="50px" />
-    <meta name="copyright" content="Copyright &#169; @copyright@, @date@,
-    GitHub-Commit: @commit@"  />
+    <meta name="copyright" content="Copyright &#169; @copyright@, @date@"  />
 </div>
