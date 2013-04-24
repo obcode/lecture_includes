@@ -9,7 +9,7 @@ GITHUB?=	NO
 PUSH_HTML?=				YES
 PUSH_PDF?=				YES
 PUSH_PRESENTATIONS?=	YES
-PUSH_WEBIMGS?=			YES
+PUSH_WEBIMGS?=			NO
 PUSH_SRC?=				NO
 
 PUSH_DROPBOX?=			NO
@@ -201,7 +201,7 @@ endif
 
 # common targets
 
-all: imgs webimgs htmls pdfs presentations
+all: imgs htmls pdfs presentations
 
 clean:
 	rm -rf $(HTMLDIR) $(PDFDIR) $(PRESDIR) $(WEBIMG_DIR)
