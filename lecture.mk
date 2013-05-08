@@ -174,10 +174,13 @@ LAST:=	00.html
 GROUP:=	
 LASTSLIDE:=	../$(PRESDIR)/$(LAST)
 LASTSLIDE_HTML:=	lastslide$(GROUP).html
+LASTSLIDE_FILE?=	lastslide$(GROUP).txt
 
 lastslide: html
 	sed "s,%%url%%,$(LASTSLIDE)," includes/lastslide.html > html/$(LASTSLIDE_HTML)
 	rsync html/$(LASTSLIDE_HTML) ${UPLOAD_HOST}:${UPLOAD_DIR}/$(HTMLDIR)/$(LASTSLIDE_HTML)
+	echo "$(DATE): $(LASTSLIDE)" >> $(LASTSLIDE_FILE)
+
 
 push: all
 ifeq ($(PUSH_HTML),YES)
