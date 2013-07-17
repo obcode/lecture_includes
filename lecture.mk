@@ -182,7 +182,7 @@ lastslide: html
 	echo "$(DATE): $(LASTSLIDE)" >> $(LASTSLIDE_FILE)
 
 
-push: all
+push:: all
 ifeq ($(PUSH_HTML),YES)
 	rsync -avz $(HTMLDIR) $(UPLOAD_HOST):$(UPLOAD_DIR)
 endif
