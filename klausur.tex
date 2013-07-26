@@ -142,7 +142,11 @@ $endif$
 \hsword{Punkte}
 \htword{Summe}
 %{\large
-
+\ifprintanswers
+\begin{center}
+  \Large Lösung $pruefung$
+\end{center}
+\else
 \begin{center}
   {\Large \bfseries $pruefung$} \\[2em]
 
@@ -183,7 +187,7 @@ $anmerkungen$
 \gradetable[h][questions]
 \end{center}
 \newpage
-
+\fi
 \begin{questions}
 $body$
 \end{questions}
