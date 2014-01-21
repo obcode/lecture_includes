@@ -61,6 +61,8 @@ HTML_TOC?= --toc
 
 ifdef USE_MATHML
 	EMBEDDEDTEX=	--mathml
+else ifdef USE_LATEXMATHML
+	EMBEDDEDTEX=	--latexmathml
 else
 	EMBEDDEDTEX=	--webtex
 endif
@@ -112,6 +114,9 @@ p: pdfs
 
 # Presentations
 
+REVEALJS:=	YES
+REVEALJS_THEME:=	solarized
+
 PRESDIR:=	presentation
 PRESS:=		$(patsubst %.txt,$(PRESDIR)/%.html,$(SRCS))
 
@@ -119,13 +124,20 @@ $(PRESDIR):
 	mkdir -p $(PRESDIR)
 
 $(PRESDIR)/%.html: %.txt
+ifeq ($(REVEALJS),YES)
+	pandoc -t revealjs -s \
+	   -V theme:$(REVEALJS_THEME) \
+	   -H includes/revealheader.html \
+	   -o $@ $<
+else
 	sed -e "s,@commit@,$(COMMIT), ;\
 		s/@date@/$(DATE)/ ;\
 		s/@copyright@/$(COPYRIGHT)/" includes/preshdr.html.in > includes/preshdr.html
-	pandoc -t slidy -s -S -V slidy-url=$(SLIDYDIR) \
+	pandoc -t slidy -s -S \
 	   $(EMBEDDEDTEX) \
 	   --slide-level=2 --self-contained -H includes/preshdr.html -o $@ $<
 	rm includes/preshdr.html
+endif
 
 presentations:	$(PRESDIR) $(PRESS)
 # s for slidy
