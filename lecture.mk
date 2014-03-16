@@ -114,8 +114,8 @@ p: pdfs
 
 # Presentations
 
-REVEALJS:=	YES
-REVEALJS_THEME:=	solarized
+REVEALJS?=	NO
+REVEALJS_THEME?=	solarized
 
 PRESDIR:=	presentation
 PRESS:=		$(patsubst %.txt,$(PRESDIR)/%.html,$(SRCS))
