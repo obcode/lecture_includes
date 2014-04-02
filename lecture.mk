@@ -36,8 +36,8 @@ GERMAN?=	--variable german="german"
 
 # Make images using dot
 
-IMG_DIR=	img
-IMG_SRC=	
+IMG_DIR?=	img
+IMG_SRC?=	
 
 IMGS=		$(patsubst %.dot,$(IMG_DIR)/%.png,$(IMG_SRC))
 
