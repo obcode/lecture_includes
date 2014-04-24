@@ -135,6 +135,7 @@ else
 		s/@copyright@/$(COPYRIGHT)/" includes/preshdr.html.in > includes/preshdr.html
 	pandoc -t slidy -s -S \
 	   $(EMBEDDEDTEX) \
+	   --css includes/slidy/styles/slidy.css \
 	   --slide-level=2 --self-contained -H includes/preshdr.html -o $@ $<
 	rm includes/preshdr.html
 endif
