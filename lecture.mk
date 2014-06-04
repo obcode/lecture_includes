@@ -107,7 +107,11 @@ $(PDFDIR)/%.pdf: %.txt
 	    $(SHOWGITHUB) \
 	    --latex-engine=xelatex \
 	    $(PDF_TOC) \
-	    -o $@ $<
+	    -o pdf/out.tex $<
+	gsed -i 's/begin{figure}\[htbp\]/begin{figure}\[!htb\]/g' pdf/out.tex
+	xelatex -papersize=a4 -jobname=$(patsubst %.txt,%,$<) --output-directory=pdf out.tex
+	xelatex -papersize=a4 -jobname=$(patsubst %.txt,%,$<) --output-directory=pdf out.tex
+	find pdf -type f ! -iname '*.pdf' -delete
 
 pdfs:	$(PDFDIR) $(PDFS)
 p: pdfs
