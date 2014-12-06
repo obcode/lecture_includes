@@ -1,7 +1,7 @@
 # (c) 2013 Oliver Braun
 
 UPLOAD_HOST?=	ob.cs.hm.edu
-UPLOAD_DIR?=	www/static/docs/lectures/$(LECTURE_NAME)
+UPLOAD_DIR?=	www/lectures/$(LECTURE_NAME)
 LECTURE_URL?=	http://$(UPLOAD_HOST)/lectures/$(LECTURE_NAME)
 # Sources are available on GitHub?
 GITHUB?=	NO
